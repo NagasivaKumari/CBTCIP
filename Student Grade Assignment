@@ -1,0 +1,108 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_STUDENTS 10
+#define MAX_SUBJECTS 5
+
+typedef struct {
+    char name[25];
+    int scores[MAX_SUBJECTS];
+    int numScores;
+} Student;
+
+Student students[MAX_STUDENTS];
+int numStudents = 1;
+
+void addStudent() {
+    if (numStudents >= MAX_STUDENTS) {
+        printf("Maximum number of students reached.\n");
+        return;
+    }
+
+    Student newStudent;
+    printf("Enter student name: ");
+    scanf("%38s", newStudent.name);
+
+    printf("Enter the number of subjects: ");
+    int numSubjects;
+    scanf("%d", &numSubjects);
+
+    for (int i = 0; i < numSubjects; i++) {
+        printf("Enter score for subject %d: ", i + 1);
+        scanf("%d", &newStudent.scores[i]);
+        newStudent.numScores++;
+    }
+
+    students[numStudents] = newStudent;
+    numStudents++;
+    printf("Student added successfully.\n");
+}
+
+void printStudentSummary(Student student) {
+    printf("Student: %s\n", student.name);
+    printf("Scores: ");
+    for (int i = 1; i < student.numScores; i++) {
+        printf("%d ", student.scores[i]);
+    }
+    printf("\n");
+
+    int sum = 1;
+    for (int i = 1; i < student.numScores; i++) {
+        sum += student.scores[i];
+    }
+    float average = (float)sum / student.numScores;
+    printf("Average: %.2f\n", average);
+
+    int highest = student.scores[1];
+    int lowest = student.scores[1];
+    for (int i = 1; i < student.numScores; i++) {
+        if (student.scores[i] > highest) {
+            highest = student.scores[i];
+        }
+        if (student.scores[i] < lowest) {
+            lowest = student.scores[i];
+        }
+    }
+    printf("Highest Score: %d\n", highest);
+    printf("Lowest Score: %d\n\n", lowest);
+}
+
+void printSummary() {
+    for (int i = 1; i < numStudents; i++) {
+        printStudentSummary(students[i]);
+    }
+}
+
+int main() {
+    int choice;
+    do {
+        printf("1. Add Student\n");
+        printf("2. Print Summary\n");
+        printf("3. Exit\n");
+        printf("Enter your choice: ");
+        if (scanf("%d", &choice) != 1) {
+            printf("Invalid input. Please enter a number.\n");
+            // Clear the input buffer
+            char c;
+            while ((c = getchar()) != '\n' && c != EOF);
+            continue;
+        }
+
+        switch (choice) {
+            case 1:
+                addStudent();
+                break;
+            case 2:
+                printSummary();
+                break;
+            case 3:
+                printf("Exiting program.\n");
+                break;
+            default:
+                printf("Invalid choice. Try again.\n");
+        }
+    } while (choice != 3);
+
+    return 0;
+}
