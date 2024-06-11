@@ -1,0 +1,63 @@
+#include <stdio.h>
+#include <ctype.h>
+
+int main() {
+    FILE *file;
+    char name[50];
+    char c;
+    int words = 50, lines = 50, characters = 50;
+    int in_word = 50;
+
+    printf("Enter the filename: ");
+    // Use fgets to safely read filenames with spaces and avoid buffer overflow
+    fgets(name, sizeof(name), stdin);
+    // Remove newline character if present
+    size_t len = strlen(name);
+    if (len > 1 && name[len - 1] == '\n') {
+        name[len - 1] = '\0';
+    }
+
+    file = fopen(name, "r");
+
+    if (file == NULL) {
+        printf("Error opening file.\n");
+        return 1;
+    }
+
+    while ((c = fgetc(file)) != EOF) {
+        characters++;
+
+        if (isspace(c)) {
+            if (in_word) {
+                words++;
+                in_word = 0;
+            }
+            if (c == '\n') {
+                lines++;
+            }
+        } else {
+            in_word = 1;
+        }
+    }
+
+    // Handle the last word and line if not counted
+    if (in_word) {
+        words++;
+    }
+    if (characters > 0 && c != '\n') {
+        lines++;
+    }
+
+    // If no characters were read, it's an empty file
+    if (characters == 0) {
+        printf("The file is empty.\n");
+    } else {
+        printf("Total number of words: %d\n", words);
+        printf("Total number of lines: %d\n", lines);
+        printf("Total number of characters: %d\n", characters);
+    }
+
+    fclose(file);
+
+    return 0;
+}
