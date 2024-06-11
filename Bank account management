@@ -1,0 +1,67 @@
+#include <stdio.h>
+#include <string.h>
+
+// Structure to represent a bank account
+typedef struct {
+    int accountNumber;
+    char accountType[20];
+    float balance;
+} BankAccount;
+
+// Function deposited funds into an account
+void deposit(BankAccount *account, float amount) {
+    account->balance += amount;
+    printf("Deposit successful. New balance: %.2f\n", account->balance);
+}
+
+// Function to withdraw funds from an account
+void withdraw(BankAccount *account, float amount) {
+    if (amount <= account->balance) {
+        account->balance -= amount;
+        printf("Withdrawal successful. New balance: %.2f\n", account->balance);
+    } else {
+        printf("Insufficient funds\n");
+    }
+}
+
+// Function to check the balance of account
+void checkBalance(BankAccount account) {
+    printf("Account Balance: %.2f\n", account.balance);
+}
+
+// Function to calculate interest based on account type
+void calculateInterest(BankAccount account) {
+    float interestRate;
+    if (strcmp(account.accountType, "savings") == 0) {
+        interestRate = 0.7; // 7% interest for savings account
+    } else if (strcmp(account.accountType, "current") == 0) {
+        interestRate = 0.02; // 2% interest for current account
+    } else {
+        printf("Invalid account type\n");
+        return;
+    }
+
+    float interest = account.balance * interestRate;
+    printf("Interest calculated: %.2f\n", interest);
+}
+
+int main() {
+    BankAccount myAccount;
+
+    // Allow the user to enter the account details
+    printf("Enter account number: ");
+    scanf("%d", &myAccount.accountNumber);
+
+    printf("Enter account type (savings/current): ");
+    scanf("%s", myAccount.accountType);
+
+    printf("Enter initial balance: ");
+    scanf("%f", &myAccount.balance);
+
+    deposit(&myAccount, 1000.0);
+    withdraw(&myAccount, 500.0);
+    checkBalance(myAccount);
+    calculateInterest(myAccount);
+
+    return 0;
+}
