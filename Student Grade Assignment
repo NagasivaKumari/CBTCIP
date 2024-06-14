@@ -29,7 +29,7 @@ void addStudent() {
     scanf("%d", &numSubjects);
 
     for (int i = 0; i < numSubjects; i++) {
-        printf("Enter score for subject %d: ", i + 1);
+        printf("Enter score of the subject %d: ", i + 1);
         scanf("%d", &newStudent.scores[i]);
         newStudent.numScores++;
     }
@@ -69,7 +69,8 @@ void printStudentSummary(Student student) {
 }
 
 void printSummary() {
-    for (int i = 1; i < numStudents; i++) {
+    size_t i;
+    for (i = 1; i < numStudents; i++) {
         printStudentSummary(students[i]);
     }
 }
@@ -106,3 +107,6 @@ int main() {
 
     return 0;
 }
+    
+   
+                
