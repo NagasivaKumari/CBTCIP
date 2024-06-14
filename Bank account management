@@ -14,7 +14,7 @@ void deposit(BankAccount *account, float amount) {
     printf("Deposit successful. New balance: %.2f\n", account->balance);
 }
 
-// Function to withdraw funds from an account
+// Function withdraw funds from an account
 void withdraw(BankAccount *account, float amount) {
     if (amount <= account->balance) {
         account->balance -= amount;
