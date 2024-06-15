@@ -2,15 +2,15 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define MAX_EXPENSES 100
+#define MAX_EXPENSES 25
 
-// Structure to represent an expense
+// Structure  represent an expense
 typedef struct {
-    char category[50];
+    char category[10];
     float amount;
 } Expense;
 
-// Function to display the menu options
+// Function  display the menu options
 void displayMenu() {
     printf("\nExpense Tracker Menu:\n");
     printf("1. Add an Expense\n");
