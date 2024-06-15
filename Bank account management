@@ -4,64 +4,40 @@
 // Structure to represent a bank account
 typedef struct {
     int accountNumber;
-    char accountType[20];
+    char accountType[25];
     float balance;
 } BankAccount;
-
-// Function deposited funds into an account
-void deposit(BankAccount *account, float amount) {
-    account->balance += amount;
-    printf("Deposit successful. New balance: %.2f\n", account->balance);
-}
-
-// Function withdraw funds from an account
-void withdraw(BankAccount *account, float amount) {
-    if (amount <= account->balance) {
-        account->balance -= amount;
-        printf("Withdrawal successful. New balance: %.2f\n", account->balance);
-    } else {
-        printf("Insufficient funds\n");
-    }
-}
-
-// Function to check the balance of account
-void checkBalance(BankAccount account) {
-    printf("Account Balance: %.2f\n", account.balance);
-}
-
-// Function to calculate interest based on account type
-void calculateInterest(BankAccount account) {
-    float interestRate;
-    if (strcmp(account.accountType, "savings") == 0) {
-        interestRate = 0.7; // 7% interest for savings account
-    } else if (strcmp(account.accountType, "current") == 0) {
-        interestRate = 0.02; // 2% interest for current account
-    } else {
-        printf("Invalid account type\n");
-        return;
-    }
-
-    float interest = account.balance * interestRate;
-    printf("Interest calculated: %.2f\n", interest);
-}
 
 int main() {
     BankAccount myAccount;
 
     // Allow the user to enter the account details
     printf("Enter account number: ");
-    scanf("%d", &myAccount.accountNumber);
+    if (scanf("%d", &myAccount.accountNumber) != 1) {
+        printf("Invalid input for account number\n");
+        return 1; // Exit with an error code
+    }
 
     printf("Enter account type (savings/current): ");
-    scanf("%s", myAccount.accountType);
+    if (scanf("%s", myAccount.accountType) != 1) {
+        printf("Invalid input for account type\n");
+        return 1; // Exit with an error code
+    }
+
+    // Clear input buffer to handle the newline character properly
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF) {}
 
     printf("Enter initial balance: ");
-    scanf("%f", &myAccount.balance);
+    if (scanf("%f", &myAccount.balance) != 1) {
+        printf("Invalid input for initial balance\n");
+        return 1; // Exit with an error code
+    }
 
-    deposit(&myAccount, 1000.0);
-    withdraw(&myAccount, 500.0);
-    checkBalance(myAccount);
-    calculateInterest(myAccount);
+    printf("\nAccount Details:\n");
+    printf("Account Number: %d\n", myAccount.accountNumber);
+    printf("Account Type: %s\n", myAccount.accountType);
+    printf("Initial Balance: %.2f\n", myAccount.balance);
 
     return 0;
 }
